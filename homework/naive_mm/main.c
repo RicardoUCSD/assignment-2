@@ -13,6 +13,22 @@
 void NaiveMatrixMultiply(Matrix *input0, Matrix *input1, Matrix *result)
 {
     //@@ Insert code to implement naive matrix multiply here
+    int rowsA= input0->shape[0];
+    int colsA= input0->shape[1];
+    int rowsB= input1->shape[0];
+    int colsB= input1->shape[1];    
+    printf("Matrix A [%d,%d], Matrix B [%d,%d]\n",rowsA,colsA,rowsB,colsB);
+    for(int i=0;i<rowsA;i++) {
+        for(int j=0;j<colsB;j++){               
+            float v1,v2;
+            //result->data[colsB] = 0;
+            for(int k=0;k<rowsB;k++){ 
+                v1 = input0->data[i*colsA + k];
+                v2 = input1->data[k*colsB+j];      
+                result->data[i*colsB +j] += v1*v2;
+            }              
+        }            
+    }
 }
 
 int main(int argc, char *argv[])
@@ -45,6 +61,8 @@ int main(int argc, char *argv[])
     int rows, cols;
     //@@ Update these values for the output rows and cols of the output
     //@@ Do not use the results from the answer matrix
+    rows = host_a.shape[0];
+    cols = host_b.shape[1];
 
     // Allocate the memory for the target.
     host_c.shape[0] = rows;
@@ -55,7 +73,7 @@ int main(int argc, char *argv[])
     NaiveMatrixMultiply(&host_a, &host_b, &host_c);
 
     // // Call to print the matrix
-    // PrintMatrix(&host_c);
+    PrintMatrix(&host_c);
 
     // Check the result of the matrix multiply
     CheckMatrix(&answer, &host_c);

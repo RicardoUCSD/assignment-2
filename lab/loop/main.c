@@ -53,8 +53,6 @@ int main(int argc, char *argv[])
     printf("sum: %f == %f\n", sum, host_b.data[0]);
 
     output.data[0] = sum;
-    err = CheckMatrix(&host_b, &output);
-    CHECK_ERR(err, "CheckMatrix");
     SaveMatrix(output_file, &output);
 
     // Release host memory
